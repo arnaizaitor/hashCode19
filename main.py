@@ -4,7 +4,7 @@ from hashParser import *
 import sys
 import os.path
 
-if(name == '__main__'):
+def principal():
 	if(len(sys.argv) != 2):
 		print('Formato de ejecucion:\n\t python main.py <ficheroPizza.txt>')
 		return	
@@ -15,5 +15,7 @@ if(name == '__main__'):
 		return
 
 	pizza = Pizza(fichero)
-	pizza.cutPizza()
+	pizza.printPizza()
 
+if(__name__ == '__main__'):
+	principal()

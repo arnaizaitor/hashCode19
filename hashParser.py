@@ -1,5 +1,7 @@
 
 class hashParser:
+	def __init__(parser):
+		parser.author = 'Aitor'
 
 	def parseFile(parser, file):
 		
@@ -11,7 +13,7 @@ class hashParser:
 
 		for line in f:
 			if(i == 0):
-				FIRST.append(line.split()) #este ya esta
+				FIRST.append(line.split()) 
 			else:
 				newline = line[:-1]
 				REST.append(newline)	

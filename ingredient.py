@@ -1,5 +1,5 @@
 class Ingredient:
-	def __init__(ingredient, tipo = None, posicX, = -1, posicY = -1):
+	def __init__(ingredient, tipo = None, posicX = -1, posicY = -1):
 		ingredient.data = [tipo, True] #type es si es 'T' o 'M'
 		ingredient.posicX = posicX
 		ingredient.posicY = posicY
