@@ -15,7 +15,7 @@ def principal():
 		return
 
 	pizza = Pizza(fichero)
-	pizza.printPizza()
+	pizza.cutPizza()
 
 if(__name__ == '__main__'):
 	principal()

@@ -16,7 +16,10 @@ class hashParser:
 				FIRST = line.split() 
 			else:
 				newline = line[:-1]
-				REST.append(newline)	
+				if(' ' in newline):
+					REST.append(newline.split())
+				else:	
+					REST.append(newline)	
 
 			i = i + 1
 
