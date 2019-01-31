@@ -1,4 +1,5 @@
 from ingredient import *
+from hashParser import *
 
 class Pizza:
 	def __init__(pizza, file):
@@ -9,10 +10,13 @@ class Pizza:
 		FIRST = results[0]
 		REST = results[1]
 
-		pizza.rows = FIRST[0]
-		pizza.columns = FIRST[1]
-		pizza.minIngr = FIRST[2]
-		pizza.maxIngr = FIRST[3]
+		#print(FIRST)
+		#print(REST)
+
+		pizza.rows = int(FIRST[0])
+		pizza.columns = int(FIRST[1])
+		pizza.minIngr = int(FIRST[2])
+		pizza.maxIngr = int(FIRST[3])
 		
 
 		pizza.data = [[Ingredient(posicX = i, posicY = j) for j in range(pizza.columns)] for i in range(pizza.rows)] #falta llenar el inicializador de Igredient con cosas del fichero
@@ -20,23 +24,28 @@ class Pizza:
 		for i in range(pizza.rows):
 			for j in range(pizza.columns):
 				pizza.data[i][j].setTipo(REST[i][j])
+				#pizza.data[i][j].posicX = i
+				#pizza.data[i][j].posicX = j
+
+	def printPizza(pizza):
+		print('\n')
+		string = ''
+
+		for i in range(pizza.rows):
+			for j in range(pizza.columns):
+				if(pizza.data[i][j].presente()):
+					string = string + str(pizza.data[i][j].tipo()) + ' '
+				else:
+					continue	
+			print(string)		
+			string = ''
+			
+		print('\n')	
+
 
 	#funcion objetivo
 	def cutPizza(pizza):
 		return True
-
-	def printPizza(pizza):
-		for i in pizza.rows:
-			for j in pizza.columns:
-				if(pizza.data[i][j].presente()):
-					print(str(pizza.data[i][j].tipo()) + ' ')
-				else:
-					continue	
-
-			print('\n')
-
-
-
 
 			
 

@@ -1,5 +1,5 @@
 class Ingredient:
-	def __init__(ingredient, tipo = None, posicX = -1, posicY = -1):
+	def __init__(ingredient, tipo = 'nada', posicX = -1, posicY = -1):
 		ingredient.data = [tipo, True] #type es si es 'T' o 'M'
 		ingredient.posicX = posicX
 		ingredient.posicY = posicY
@@ -7,8 +7,8 @@ class Ingredient:
 	def tipo(ingredient):
 		return ingredient.data[0]
 
-	def setTipo(ingedient, tipo):
-		if((tipo != 'T') or (tipo != 'M')):
+	def setTipo(ingredient, tipo):
+		if((tipo != 'T') and (tipo != 'M')):
 			return False
 
 		else:

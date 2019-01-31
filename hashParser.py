@@ -13,7 +13,7 @@ class hashParser:
 
 		for line in f:
 			if(i == 0):
-				FIRST.append(line.split()) 
+				FIRST = line.split() 
 			else:
 				newline = line[:-1]
 				REST.append(newline)	
