@@ -39,8 +39,56 @@ class Pizza:
 					continue	
 			print(string)		
 			string = ''
-			
+
 		print('\n')	
+
+
+	def isCutable(pizza, col1, col2, row1, row2):
+		
+		numTomatoes = 0
+		numMushrooms = 0
+		numElemsCut = (col2-col1+1)*(row2-row1+1)
+
+		if((numElemsCut < (pizza.minIngr*2)) or (numElemsCut > (pizza.maxIngr*2))):
+			return False
+		if(col1 > col2):
+			return False
+		if(row1 > row2):
+			return False
+		if((col1 > pizza.columns) or (col2 > pizza.columns)):
+			return False
+		if((row1 > pizza.rows) or (row2 > pizza.rows)):
+			return False
+
+		for i in range(row1, row2+1):  #vemos que ninguno de los ingredientes en el trozo que queremos cortar haya sido cortado previamente
+			for j in range(col1, col2+1):
+				if(pizza.data[i][j].presente() == False):
+					return False
+
+		for i in range(row1, row2+1): 
+			for j in range(col1, col2+1):
+				if(pizza.data[i][j].tipo() == 'T'):
+					numTomatoes += 1	
+				elif(pizza.data[i][j].tipo() == 'M'):
+					numMushrooms += 1
+				else: 
+					return False
+
+		if(numTomatoes < pizza.minIngr or numTomatoes > pizza.maxIngr or numMushrooms < pizza.minIngr or numMushrooms > pizza.maxIngr):
+			return False							
+		
+		return True		
+
+	def cutChunk(pizza, col1, col2, row1, row2): #solo hay que llamar a esta cuando se quiere cortar
+		
+		if(pizza.isCutable(col1, col2, row1, row2) == False):
+			return False
+
+		for i in range(row1, row2+1):
+			for j in range(col1, col2+1):
+				pizza.data[i][j].cortar()
+		
+		return True									
 
 
 	#funcion objetivo

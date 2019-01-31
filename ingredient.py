@@ -20,7 +20,7 @@ class Ingredient:
 
 	def cortar(ingredient): #llamar para cada ingrediente de un trozo cortado
 		if(ingredient.data[1]):
-			ingrediente.data[1] = False
+			ingredient.data[1] = False
 			return True
 		else:
 			return False #ya estaba cortado
