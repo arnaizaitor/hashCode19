@@ -20,6 +20,8 @@ class Pizza:
 		pizza.maxCells = int(FIRST[3])
 		pizza.pointsDict = {(0, 0) : 0}
 		pizza.numPointsdict = 1
+		pizza.newDict = {}
+		pizza.aux = []
 		
 
 		pizza.data = [[Ingredient(posicX = i, posicY = j) for j in range(pizza.columns)] for i in range(pizza.rows)] #falta llenar el inicializador de Igredient con cosas del fichero
@@ -37,9 +39,12 @@ class Pizza:
 		for i in range(pizza.rows):
 			for j in range(pizza.columns):
 				if(pizza.data[i][j].presente()):
-					string = string + str(pizza.data[i][j].tipo()) + ' '
+					if((i,j) in pizza.aux):
+						string = string + '(' + str(pizza.data[i][j].tipo()) + ')' + ' '
+					else:
+						string = string + str(pizza.data[i][j].tipo()) + '  '
 				else:
-					string = string + '~' + ' '
+					string = string + '~' + '  '
 			print(string)		
 			string = ''
 
@@ -92,17 +97,31 @@ class Pizza:
 				pizza.data[i][j].cortar()
 
 		#meto en el diccionario de puntos de arranque los puntos abajo izqda +1 y arriba dcha +1 del trozo cortado		
-		pizza.pointsDict[(col2 + 1, row1)] = pizza.numPointsdict
+		pizza.newDict[(col2 + 1, row1)] = pizza.numPointsdict
 		pizza.numPointsdict += 1
 		
-		pizza.pointsDict[(col1, row2 + 1)] = pizza.numPointsdict
+		pizza.newDict[(col1, row2 + 1)] = pizza.numPointsdict
 		pizza.numPointsdict += 1
 
 		return True									
 
+	def generateModifiers(pizza):
+		maxCells = pizza.maxCells
+		cols = pizza.columns
+		rows = pizza.rows
+
+		MODS = []
+		for i in range(cols):
+			for j in range(rows):
+				if(i*j <= maxCells):
+					MODS.append([i, j])
+
+		return MODS
 
 	#funcion objetivo
 	def cutPizza(pizza):
+		MODS = pizza.generateModifiers()
+
 		pizza.printPizza()
 		print ('pizza inicial')
 		print('------------------------------------------------------------------------------------------------------------------------------\n')
@@ -112,20 +131,22 @@ class Pizza:
 			keys = pizza.pointsDict.keys()
 			modRows = 0
 			modCols = 0
+			i = 0
 			
 			while (flag == 0):
 				for point in keys:
-					if(pizza.cutChunk(point[0], point[0] + modCols, point[1], point[1] + modRows) == True):
-						pizza.printPizza()
-						print('Trozo cortado entre las columnas %d y %d y las filas %d y %d' %(point[0], point[0] + modCols, point[1], point[1] + modRows))
-						print('------------------------------------------------------------------------------------------------------------------------------\n')
-						flag = 1
-						pizza.pointsDict.pop(point)
-						break
-				if(random.random() >= 0.5):
-					modCols += 1
-				else:
-					modRows += 1
+					for mod in MODS:
+						modCols = mod[0]
+						modRows = mod[1]	
+						if(pizza.cutChunk(point[0], point[0] + modCols, point[1], point[1] + modRows) == True):
+							pizza.printPizza()
+							print('Trozo cortado entre las columnas %d y %d y las filas %d y %d' %(point[0], point[0] + modCols, point[1], point[1] + modRows))
+							print('------------------------------------------------------------------------------------------------------------------------------\n')
+							flag = 1
+
+				keys = pizza.newDict.keys()
+				pizza.aux = keys
+				pizza.newDict = {} #reinicializamos para siguiente generacion de puntos de arranque
 
 		print('Procesamiento finalizado\n')			
 		return True

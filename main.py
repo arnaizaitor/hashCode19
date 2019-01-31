@@ -15,6 +15,8 @@ def principal():
 		return
 
 	pizza = Pizza(fichero)
+	#mods = pizza.generateModifiers()
+	#print(mods)
 	pizza.cutPizza()
 
 if(__name__ == '__main__'):
