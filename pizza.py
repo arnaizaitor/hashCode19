@@ -97,7 +97,7 @@ class Pizza:
 				pizza.data[i][j].cortar()
 
 		#meto en el diccionario de puntos de arranque los puntos abajo izqda +1 y arriba dcha +1 del trozo cortado		
-		if(col2+1 + 1 < pizza.columns):	
+		if(col2+1 < pizza.columns):	
 			pizza.newDict[(col2 + 1, row1)] = pizza.numPointsdict
 			pizza.numPointsdict += 1
 		if(row2+1 < pizza.rows):
@@ -127,7 +127,7 @@ class Pizza:
 		print ('pizza inicial')
 		print('------------------------------------------------------------------------------------------------------------------------------\n')
 
-		while((pizza.columns-1, pizza.rows-1) not in pizza.pointsDict.keys()):
+		while((pizza.columns-1, pizza.rows-1) not in pizza.aux):
 			flag = 0
 			keys = pizza.pointsDict.keys()
 			modRows = 0
@@ -148,6 +148,7 @@ class Pizza:
 							print('------------------------------------------------------------------------------------------------------------------------------\n')
 							flag = 1
 							flag2 = 1
+					
 					if(flag2 == 0):
 						if(point[1] + 1 < pizza.rows):
 							pizza.newDict[(point[0], point[1] + 1)] = pizza.numPointsdict
@@ -155,7 +156,8 @@ class Pizza:
 						if(point[0] + 1 < pizza.columns):
 							pizza.newDict[(point[0] + 1, point[1])] = pizza.numPointsdict
 							pizza.numPointsdict += 1
-
+				
+				flag = 1
 				keys = pizza.newDict.keys()
 				pizza.aux = keys
 				pizza.newDict = {} #reinicializamos para siguiente generacion de puntos de arranque
