@@ -39,12 +39,12 @@ class Pizza:
 		for i in range(pizza.rows):
 			for j in range(pizza.columns):
 				if(pizza.data[i][j].presente()):
-					if((i,j) in pizza.aux):
-						string = string + '(' + str(pizza.data[i][j].tipo()) + ')' + ' '
+					if((i,j) in pizza.newDict.keys() or (i, j) in pizza.pointsDict.keys()):
+						string = string + '(' + str(pizza.data[i][j].tipo()) + ') ' + ' '
 					else:
-						string = string + str(pizza.data[i][j].tipo()) + '  '
+						string = string + ' ' + str(pizza.data[i][j].tipo()) + '   '
 				else:
-					string = string + '~' + '  '
+					string = string + ' ~ ' + '  '
 			print(string)		
 			string = ''
 
@@ -97,11 +97,12 @@ class Pizza:
 				pizza.data[i][j].cortar()
 
 		#meto en el diccionario de puntos de arranque los puntos abajo izqda +1 y arriba dcha +1 del trozo cortado		
-		pizza.newDict[(col2 + 1, row1)] = pizza.numPointsdict
-		pizza.numPointsdict += 1
-		
-		pizza.newDict[(col1, row2 + 1)] = pizza.numPointsdict
-		pizza.numPointsdict += 1
+		if(col2+1 + 1 < pizza.columns):	
+			pizza.newDict[(col2 + 1, row1)] = pizza.numPointsdict
+			pizza.numPointsdict += 1
+		if(row2+1 < pizza.rows):
+			pizza.newDict[(col1, row2 + 1)] = pizza.numPointsdict
+			pizza.numPointsdict += 1
 
 		return True									
 
@@ -132,21 +133,33 @@ class Pizza:
 			modRows = 0
 			modCols = 0
 			i = 0
+			nohehechonada = 0
 			
 			while (flag == 0):
 				for point in keys:
+					flag2 = 0
 					for mod in MODS:
 						modCols = mod[0]
 						modRows = mod[1]	
 						if(pizza.cutChunk(point[0], point[0] + modCols, point[1], point[1] + modRows) == True):
+							print('entro')
 							pizza.printPizza()
 							print('Trozo cortado entre las columnas %d y %d y las filas %d y %d' %(point[0], point[0] + modCols, point[1], point[1] + modRows))
 							print('------------------------------------------------------------------------------------------------------------------------------\n')
 							flag = 1
+							flag2 = 1
+					if(flag2 == 0):
+						if(point[1] + 1 < pizza.rows):
+							pizza.newDict[(point[0], point[1] + 1)] = pizza.numPointsdict
+							pizza.numPointsdict += 1
+						if(point[0] + 1 < pizza.columns):
+							pizza.newDict[(point[0] + 1, point[1])] = pizza.numPointsdict
+							pizza.numPointsdict += 1
 
 				keys = pizza.newDict.keys()
 				pizza.aux = keys
 				pizza.newDict = {} #reinicializamos para siguiente generacion de puntos de arranque
+				
 
 		print('Procesamiento finalizado\n')			
 		return True
