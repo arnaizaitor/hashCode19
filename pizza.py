@@ -122,10 +122,10 @@ class Pizza:
 	#funcion objetivo
 	def cutPizza(pizza):
 		MODS = pizza.generateModifiers()
-
-		pizza.printPizza()
-		print ('pizza inicial')
-		print('------------------------------------------------------------------------------------------------------------------------------\n')
+		fw = open("out.txt", "w")
+		#pizza.printPizza()
+		#print ('pizza inicial')
+		#print('------------------------------------------------------------------------------------------------------------------------------\n')
 
 		while((pizza.columns-1, pizza.rows-1) not in pizza.aux):
 			flag = 0
@@ -142,10 +142,10 @@ class Pizza:
 						modCols = mod[0]
 						modRows = mod[1]	
 						if(pizza.cutChunk(point[0], point[0] + modCols, point[1], point[1] + modRows) == True):
-							print('entro')
-							pizza.printPizza()
+							#pizza.printPizza()
 							print('Trozo cortado entre las columnas %d y %d y las filas %d y %d' %(point[0], point[0] + modCols, point[1], point[1] + modRows))
-							print('------------------------------------------------------------------------------------------------------------------------------\n')
+							fw.write('%s %s %s %s\n' %(point[1], point[0], point[1]+modRows, point[0]+modCols))
+							#print('------------------------------------------------------------------------------------------------------------------------------\n')
 							flag = 1
 							flag2 = 1
 					
@@ -157,7 +157,7 @@ class Pizza:
 							pizza.newDict[(point[0] + 1, point[1])] = pizza.numPointsdict
 							pizza.numPointsdict += 1
 				
-				flag = 1
+				#flag = 1
 				keys = pizza.newDict.keys()
 				pizza.aux = keys
 				pizza.newDict = {} #reinicializamos para siguiente generacion de puntos de arranque
