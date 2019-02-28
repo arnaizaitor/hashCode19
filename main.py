@@ -40,6 +40,7 @@ def principal():
 		else:
 			hors.remove(max_f)
 		actual_set = max_f['tags']
+		print(len(slides))
 
 	aux = hors + aux_v
 	if len(aux) > 0:
