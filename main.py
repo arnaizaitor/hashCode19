@@ -34,11 +34,11 @@ def principal():
 		# Para borrarlo
 		slides.append(max_f['id'])
 		if (len(max_f['id'].split(' ')) > 1):
+			buff = []
 			for cosa in aux_v:
-				if cosa != max_f:
-					if cosa['f1'] == max_f['f1'] or cosa['f2'] == max_f['f1'] or cosa['f2'] == max_f['f2'] or cosa['f1'] == max_f['f2']:
-						aux_v.remove(cosa)
-				aux_v.remove(max_f)
+				if cosa['f1'] != max_f['f1'] and cosa['f2'] != max_f['f2'] and cosa['f1'] != max_f['f2'] and cosa['f2'] != max_f['f1']:
+					buff.append(cosa)
+			aux_v = buff
 		else:
 			hors.remove(max_f)
 		actual_set = max_f['tags']
