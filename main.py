@@ -8,17 +8,26 @@ def principal():
 		print('Formato de ejecucion:\n\t python main.py <ficheroParseo.txt>')
 		return	
 
-	fichero = sys.argv[1]	
+	fichero = sys.argv[1]
+	#tope = int(sys.argv[2])
 	numFotos, photos = parser(fichero) 
 	
-	verts=photos['v']
+	verts=photos['v'][:1000]
 	hors=photos['h']
 	slides=[]
-	
-	slides.append(hors[0]['id'])
-	actual_set=hors[0]['tags']
-	hors.remove(hors[0])
+
+	if (len(hors) != 0):
+		slides.append(hors[0]['id'])
+		actual_set=hors[0]['tags']
+		hors.remove(hors[0])
+	else:
+		slides.append(verts[0]['id'] + ' ' + verts[1]['id'])
+		actual_set=verts[0]['tags'].union(verts[1]['tags'])
+		verts.remove(verts[0])
+		verts.remove(verts[1])
+		
 	aux_v = combinar.combinarVerticales(verts)
+	
 	i=-1
 	while len(hors) + len(aux_v) > 1:
 		maximum=-1
