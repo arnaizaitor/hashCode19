@@ -19,7 +19,7 @@ def principal():
 	actual_set=hors[0]['tags']
 	hors.remove(hors[0])
 	aux_v = combinar.combinarVerticales(verts)
-
+	i=-1
 	while len(hors) + len(aux_v) > 1:
 		maximum=-1
 		max_f = None
@@ -35,12 +35,15 @@ def principal():
 		slides.append(max_f['id'])
 		if (len(max_f['id'].split(' ')) > 1):
 			for cosa in aux_v:
-				if cosa['f1'] == max_f['f1'] or cosa['f2'] == max_f['f1'] or cosa['f2'] == max_f['f2'] or cosa['f1'] == max_f['f2']:
-					aux_v.remove(cosa)
+				if cosa != max_f:
+					if cosa['f1'] == max_f['f1'] or cosa['f2'] == max_f['f1'] or cosa['f2'] == max_f['f2'] or cosa['f1'] == max_f['f2']:
+						aux_v.remove(cosa)
+				aux_v.remove(max_f)
 		else:
 			hors.remove(max_f)
 		actual_set = max_f['tags']
-		print(len(slides))
+		i+=1
+		print(len(slides), slides[i])
 
 	aux = hors + aux_v
 	if len(aux) > 0:
