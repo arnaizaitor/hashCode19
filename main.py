@@ -1,5 +1,6 @@
 import sys
 import os.path
+import combinar
 from parser import *
 
 def principal():
@@ -10,20 +11,43 @@ def principal():
 	fichero = sys.argv[1]	
 	numFotos, photos = parser(fichero) 
 	
-	numSlides = 0
-	verts=photos.v
-	hors=photos.h
+	verts=photos['v']
+	hors=photos['h']
 	slides=[]
 	
-	slides.append([hors[0].id])
-  numSlides+=1
-  actual_set=hors[0].tags
-  print(actual_set)
-  hors.remove(hors[0])
-  maximum=-1
+	slides.append(hors[0]['id'])
+	actual_set=hors[0]['tags']
+	hors.remove(hors[0])
+	aux_v = combinar.combinarVerticales(verts)
 
-  for foto in hors:
-    compare_set=foto
+	while len(hors) + len(aux_v) > 1:
+		maximum=-1
+		max_f = None
+		aux = hors + aux_v
+			# Pruebo las horizontales
+		for foto in aux:
+			c_set = foto['tags']
+			valor = min(len(c_set.intersection(actual_set)), len(c_set.difference(actual_set)), len(actual_set.difference(c_set)))
+			if valor > maximum:
+				maximum = valor
+				max_f = foto
+		# Para borrarlo
+		slides.append(max_f['id'])
+		if (len(max_f['id'].split(' ')) > 1):
+			for cosa in aux_v:
+				if cosa['f1'] == max_f['f1'] or cosa['f2'] == max_f['f1'] or cosa['f2'] == max_f['f2'] or cosa['f1'] == max_f['f2']:
+					aux_v.remove(cosa)
+		else:
+			hors.remove(max_f)
+		actual_set = max_f['tags']
+
+	aux = hors + aux_v
+	if len(aux) > 0:
+		slides.append(aux[0]['id'])
+	with open('out.txt', 'w') as f:
+		f.writelines(str(len(slides))+'\n')
+		for s in slides:
+			f.writelines(str(s)+'\n')
 
 if(__name__ == '__main__'):
   principal()

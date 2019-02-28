@@ -7,7 +7,7 @@ def parser(file):
         for line in f:
             a = line.split('\n')
             s = a[0].split(' ')
-            foto = {'ori':s[0], 'id':i, 'tags':s[2:]}
+            foto = {'ori':s[0], 'id':str(i), 'tags':set(s[2:])}
             if s[0] == 'H':
                 fotos_h.append(foto)
             else:
@@ -15,6 +15,3 @@ def parser(file):
             i += 1
         fotos = {'v':fotos_v, 'h':fotos_h}
     return n, fotos
-    
-n, fotos = parser('a_example.txt')
-print(fotos)
